@@ -277,9 +277,15 @@ LIMIT 1;
 ```
 13. Selezionare le categorie dei videogame i quali hanno una media recensioni inferiore a 2 (10)
 ```
-SELECT *
+SELECT DISTINCT c.name
 FROM (SELECT r.videogame_id, AVG(r.rating) as av
 FROM reviews r 
 GROUP BY r.videogame_id ) as avt
-WHERE av < 2
+JOIN videogames v 
+	ON avt.videogame_id = v.id 
+JOIN category_videogame cv 
+	ON v.id = cv.videogame_id 
+JOIN categories c 
+	ON cv.category_id = c.id
+WHERE av < 2;
 ```
