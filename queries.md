@@ -261,7 +261,19 @@ LIMIT 1;
 ```
 12. Selezionare la software house che ha vinto piÃ¹ premi tra il 2015 e il 2016 (software house id : potrebbe uscire 3 o 1, sono entrambi a 3)
 ```
-
+SELECT  sh.id, sh.name, COUNT(*) as num_awards
+FROM awards a 
+JOIN award_videogame av 
+	ON a.id = av.award_id 
+JOIN videogames v 
+	ON av.videogame_id = v.id 
+JOIN software_houses sh 
+	ON v.software_house_id = sh.id  
+WHERE av.`year` >= 2015 
+	AND av.`year` <= 2016
+GROUP BY sh.id
+ORDER BY num_awards DESC 
+LIMIT 1;
 ```
 13. Selezionare le categorie dei videogame i quali hanno una media recensioni inferiore a 2 (10)
 ```
